@@ -15,3 +15,5 @@
 local.properties
 /.idea/
 /config.gradle
+/buildSrc/build/pluginUnderTestMetadata/
+/buildSrc/build/
