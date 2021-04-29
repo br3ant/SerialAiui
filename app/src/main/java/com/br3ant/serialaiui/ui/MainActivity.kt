@@ -1,5 +1,6 @@
 package com.br3ant.serialaiui.ui
 
+import android.annotation.SuppressLint
 import android.os.Environment
 import android.widget.Button
 import android.widget.TextView
@@ -34,9 +35,9 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 }
             }.request()
         findViewById<Button>(R.id.btn_action).setOnClickListener {
-
+            writeText()
         }
-        tvInfo.findViewById<TextView>(R.id.tv_info)
+        tvInfo = findViewById(R.id.tv_info)
     }
 
     private fun initLog() {
@@ -58,7 +59,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             if (it.toBean<SerialData>()?.param1?.keyword == "xiao3 fei1 xiao3 fei1") {
                 val message = "监测到串口唤醒指令"
                 ToastUtils.showShort(message)
-                startText(message)
+                getStatus()
             } else {
                 ToastUtils.showShort(it)
                 LogUtils.iTag("hqq", "onDataReceived = $it")
@@ -69,23 +70,30 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun startText(text: String = "今天天气怎么样") {
-
-
         mAiuiAgentManager.startTts(text)
 
     }
 
+    private fun writeText(text: String = "今天天气怎么样") {
+        mAiuiAgentManager.writeText(text)
+    }
+
+    private fun getStatus() = mAiuiAgentManager.getStatus()
+
+    @SuppressLint("SetTextI18n")
     private val aiuiCallback: AiuiAgentManager.AiuiAgentCallback =
         object : AiuiAgentManager.AiuiAgentCallback {
+
             override fun onAsrSucceed(content: String?) {
 //                ToastUtils.showShort(content)
                 LogUtils.iTag("hqq", "onAsrSucceed = $content")
-
+                tvInfo.text = tvInfo.text.toString() + content + "\n"
             }
 
             override fun onNlpSucceed(answer: String?) {
 //            ToastUtils.showShort(answer)
                 LogUtils.iTag("hqq", "onNlpSucceed = $answer")
+                tvInfo.text = tvInfo.text.toString() + answer + "\n"
             }
 
             override fun onTtsSucceed(pcmBytes: ByteArray?, expressionList: List<FloatArray?>?) {

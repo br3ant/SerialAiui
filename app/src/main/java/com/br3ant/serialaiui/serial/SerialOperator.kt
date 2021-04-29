@@ -7,7 +7,7 @@ import java.io.File
 
 class SerialOperator {
     private var mSerialPort: SerialPort? = null
-    private var data: ByteArray = byteArrayOf()
+    private var data: String = ""
 
     fun openSerialPort(path: String, baudrate: Int, callback: (String) -> Unit): Boolean {
         closeSerialPort()
@@ -17,14 +17,17 @@ class SerialOperator {
                 val readBytes = bytes.copyOf(size)
                 val hexString = BytesArrayUtils.bytesToHexString(readBytes)
                 if (hexString.startsWith("fe")) {
-                    data = byteArrayOf(*readBytes)
+                    data = hexString
                 } else {
-                    data += readBytes
+                    data += hexString
                 }
-                if (hexString.endsWith("fe00")) {
-                    callback.invoke(String(data.copyOfRange(4, data.size - 2)))
+                if (data.endsWith("fe00")) {
+                    val dataBytes = BytesArrayUtils.hexStringToBytes(data)
+                    if (dataBytes.size > 6) {
+                        callback.invoke(String(dataBytes, 4, data.substring(2, 6).toInt(16)))
+                    }
                 }
-                LogUtils.iTag("SerialOperator", hexString)
+                LogUtils.iTag("SerialOperator", data)
             }
         } catch (e: Exception) {
             e.printStackTrace()

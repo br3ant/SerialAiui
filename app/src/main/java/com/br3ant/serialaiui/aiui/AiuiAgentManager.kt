@@ -232,7 +232,7 @@ class AiuiAgentManager(context: Context) : AIUIListener {
 //        LogUtils.iTag(TAG, "tts duration: ${duration}ms")
 //    }
 
-    private fun getStatus() {
+    fun getStatus() {
         mAIUIAgent.sendMessage(createMessageByType(AIUIConstant.CMD_GET_STATE))
     }
 
