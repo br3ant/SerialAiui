@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion(28)
+    compileSdkVersion(30)
 
     defaultConfig {
         applicationId("com.br3ant.serialaiui")
         minSdkVersion(21)
-        targetSdkVersion(28)
+        targetSdkVersion(30)
         versionCode(4)
         versionName("1.0")
 
@@ -49,7 +49,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("androidx.core:core-ktx:1.3.2")
     implementation("androidx.appcompat:appcompat:1.2.0")
-    implementation("com.google.android.material:material:1.2.1")
+    implementation("com.google.android.material:material:1.3.0")
 
     implementation("com.blankj:utilcodex:1.29.0")
 

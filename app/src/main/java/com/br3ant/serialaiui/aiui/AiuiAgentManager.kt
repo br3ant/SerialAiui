@@ -37,7 +37,7 @@ class AiuiAgentManager(context: Context) : AIUIListener {
     }
 
     fun createAgent() {
-        AIUIAgent.setSystemInfo(AIUIConstant.KEY_SERIAL_NUM, CLIENT_DEVICE_ID)
+//        AIUIAgent.setSystemInfo(AIUIConstant.KEY_SERIAL_NUM, CLIENT_DEVICE_ID)
         // when createAgent called, agent is in ready state
         mAIUIAgent = AIUIAgent.createAgent(mContext, getAIUIParams(), this)
         getStatus()
@@ -171,8 +171,9 @@ class AiuiAgentManager(context: Context) : AIUIListener {
                         if (answer.has("text")) {
                             val text = answer.optString("text")
                             LogUtils.i("text:{}", text)
-                            startTts(text)
+//                            startTts(text)
                             mAiuiAgentCallback?.onNlpSucceed(text)
+                            stopRecord()
                         }
                     }
                     val service = intent.optString("service")
@@ -333,8 +334,8 @@ class AiuiAgentManager(context: Context) : AIUIListener {
     companion object {
         private const val AUDIO_PARAMS = "data_type=audio,sample_rate=16000"
         private const val TEXT_PARAMS = "data_type=text"
-        const val APP_ID = "5abcfb32"
-        const val APP_KEY = "f3bd8ae5824ca84a7733886e0e223457"
+        const val APP_ID = "2183c3ea"
+        const val APP_KEY = "cc1750634f77f8a64ff3df64c4da27fa"
         val CLIENT_DEVICE_ID: String by lazy {
             DeviceUtils.getUniqueDeviceId()
         }

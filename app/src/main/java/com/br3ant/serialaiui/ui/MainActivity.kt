@@ -13,8 +13,8 @@ import com.br3ant.base.BaseActivity
 import com.br3ant.serialaiui.R
 import com.br3ant.serialaiui.aiui.AiuiAgentManager
 import com.br3ant.serialaiui.serial.SerialData
-import com.br3ant.utils.toBean
 import com.br3ant.serialaiui.serial.SerialManager
+import com.br3ant.utils.toBean
 import org.json.JSONArray
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
@@ -40,6 +40,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         tvInfo = findViewById(R.id.tv_info)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        mAiuiAgentManager.destroy()
+    }
+
     private fun initLog() {
         LogUtils.getConfig().isLog2FileSwitch = true
         LogUtils.getConfig().dir = Environment.getExternalStorageDirectory().absolutePath + "/br3ant"
@@ -53,6 +58,16 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         mAiuiAgentManager.setAiuiAgentCallback(aiuiCallback)
     }
 
+//    override fun onResume() {
+//        super.onResume()
+//        mAiuiAgentManager.startRecord()
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        mAiuiAgentManager.stopRecord()
+//    }
+
     private fun initSerialOperator() {
 
         val openResult = SerialManager.operator.openSerialPort("/dev/ttyS4", 115200) {
@@ -60,6 +75,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                 val message = "监测到串口唤醒指令"
                 ToastUtils.showShort(message)
                 getStatus()
+                mAiuiAgentManager.startRecord()
             } else {
                 ToastUtils.showShort(it)
                 LogUtils.iTag("hqq", "onDataReceived = $it")

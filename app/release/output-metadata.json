@@ -5,12 +5,12 @@
     "kind": "Directory"
   },
   "applicationId": "com.br3ant.serialaiui",
-  "variantName": "processReleaseResources",
+  "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
-      "versionCode": 2,
+      "versionCode": 4,
       "versionName": "1.0",
       "outputFile": "app-release.apk"
     }
