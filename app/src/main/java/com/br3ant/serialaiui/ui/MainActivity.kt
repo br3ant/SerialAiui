@@ -56,6 +56,8 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         mAiuiAgentManager = AiuiAgentManager(this)
         mAiuiAgentManager.createAgent()
         mAiuiAgentManager.setAiuiAgentCallback(aiuiCallback)
+
+        mAiuiAgentManager.startRecord()
     }
 
 //    override fun onResume() {
@@ -74,8 +76,11 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             if (it.toBean<SerialData>()?.param1?.keyword == "xiao3 fei1 xiao3 fei1") {
                 val message = "监测到串口唤醒指令"
                 ToastUtils.showShort(message)
-                getStatus()
-                mAiuiAgentManager.startRecord()
+//                mAiuiAgentManager.stopRecord()
+//                mAiuiAgentManager.resetWakeup()
+//                startText("我在")
+//                mAiuiAgentManager.startRecord()
+                mAiuiAgentManager.getStatus()
             } else {
                 ToastUtils.showShort(it)
                 LogUtils.iTag("hqq", "onDataReceived = $it")

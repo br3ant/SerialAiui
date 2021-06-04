@@ -173,7 +173,7 @@ class AiuiAgentManager(context: Context) : AIUIListener {
                             LogUtils.i("text:{}", text)
 //                            startTts(text)
                             mAiuiAgentCallback?.onNlpSucceed(text)
-                            stopRecord()
+//                            stopRecord()
                         }
                     }
                     val service = intent.optString("service")
@@ -185,6 +185,7 @@ class AiuiAgentManager(context: Context) : AIUIListener {
                                 if (result.length() > 0) {
                                     val sid = intent.optString("sid")
                                     mAiuiAgentCallback?.onAudioSuccess(result, service, sid)
+//                                    stopRecord()
                                 }
                             }
                         }
@@ -289,6 +290,18 @@ class AiuiAgentManager(context: Context) : AIUIListener {
             0,
             0,
             "data_type=audio,sample_rate=16000",
+            null
+        )
+        mAIUIAgent.sendMessage(msg)
+    }
+
+    fun resetWakeup() {
+        //重置
+        val msg = AIUIMessage(
+            AIUIConstant.CMD_RESET_WAKEUP,
+            0,
+            0,
+            null,
             null
         )
         mAIUIAgent.sendMessage(msg)

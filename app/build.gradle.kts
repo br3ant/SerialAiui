@@ -10,8 +10,8 @@ android {
         applicationId("com.br3ant.serialaiui")
         minSdkVersion(21)
         targetSdkVersion(30)
-        versionCode(4)
-        versionName("1.0")
+        versionCode(5)
+        versionName("2.0")
 
         ndk {
             (this as com.android.build.gradle.internal.dsl.NdkOptions).abiFilter("armeabi-v7a")
