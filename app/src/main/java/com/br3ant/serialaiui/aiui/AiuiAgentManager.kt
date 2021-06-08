@@ -3,6 +3,7 @@ package com.br3ant.serialaiui.aiui
 import android.content.Context
 import com.blankj.utilcode.util.DeviceUtils
 import com.blankj.utilcode.util.LogUtils
+import com.br3ant.serialaiui.utils.PreHolder
 import com.br3ant.utils.GsonUtil
 import com.iflytek.aiui.*
 import kotlinx.coroutines.Dispatchers
@@ -248,7 +249,7 @@ class AiuiAgentManager(context: Context) : AIUIListener {
         val assetManager = mContext.assets
         var ins: InputStream? = null
         try {
-            ins = assetManager.open("cfg/aiui_phone.cfg")
+            ins = assetManager.open(if(PreHolder.oneshot) "cfg/aiui_phone.cfg" else "cfg/aiui_phone_continuous.cfg")
             val buffer = ByteArray(ins.available())
             ins.read(buffer)
             ins.close()

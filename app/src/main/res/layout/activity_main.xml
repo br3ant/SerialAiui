@@ -6,23 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".ui.MainActivity">
 
-    <TextView
-        android:id="@+id/tv_info"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_info"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:textColor="#f52443"
-        android:textSize="14sp"
-        android:padding="10dp"
+        tools:listitem="@layout/item_aiui_info"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_action"
-        tools:text="测试" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_action" />
 
     <Button
         android:id="@+id/btn_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="动作"
+        android:layout_margin="@dimen/dp_5"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="设置"
+        android:layout_margin="@dimen/dp_5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,3 +17,4 @@ local.properties
 /config.gradle
 /buildSrc/build/pluginUnderTestMetadata/
 /buildSrc/build/
+/app/release/

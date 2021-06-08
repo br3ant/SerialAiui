@@ -1,9 +1,9 @@
 package com.br3ant.serialaiui.ui
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Environment
-import android.widget.Button
-import android.widget.TextView
+import androidx.lifecycle.rxLifeScope
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
@@ -12,18 +12,27 @@ import com.blankj.utilcode.util.ToastUtils
 import com.br3ant.base.BaseActivity
 import com.br3ant.serialaiui.R
 import com.br3ant.serialaiui.aiui.AiuiAgentManager
+import com.br3ant.serialaiui.databinding.ActivityMainBinding
 import com.br3ant.serialaiui.serial.SerialData
 import com.br3ant.serialaiui.serial.SerialManager
+import com.br3ant.serialaiui.utils.PreHolder
 import com.br3ant.utils.toBean
+import com.drake.brv.utils.addModels
+import com.drake.brv.utils.setup
+import com.hi.dhl.binding.viewbind
 import org.json.JSONArray
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
-//    private val binding by binding()
+    private val binding: ActivityMainBinding by viewbind()
 
     private lateinit var mAiuiAgentManager: AiuiAgentManager
-    private lateinit var tvInfo: TextView
+
 
     override fun initView() {
+        binding.rvInfo.setup {
+            addType<String>(R.layout.item_aiui_info)
+        }.models = emptyList()
+
         PermissionUtils.permission(PermissionConstants.STORAGE, PermissionConstants.MICROPHONE)
             .callback { isAllGranted, _, _, _ ->
                 if (isAllGranted) {
@@ -34,10 +43,18 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
                     finish()
                 }
             }.request()
-        findViewById<Button>(R.id.btn_action).setOnClickListener {
+        binding.btnAction.setOnClickListener {
             writeText()
         }
-        tvInfo = findViewById(R.id.tv_info)
+        binding.btnSetting.setOnClickListener {
+            startActivity(Intent(this, SettingActivity::class.java))
+        }
+    }
+
+    private fun addInfo(info: String?) {
+        rxLifeScope.launch {
+            binding.rvInfo.addModels(listOf(info))
+        }
     }
 
     override fun onDestroy() {
@@ -57,7 +74,6 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
         mAiuiAgentManager.createAgent()
         mAiuiAgentManager.setAiuiAgentCallback(aiuiCallback)
 
-        mAiuiAgentManager.startRecord()
     }
 
 //    override fun onResume() {
@@ -72,22 +88,24 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
 
     private fun initSerialOperator() {
 
-        val openResult = SerialManager.operator.openSerialPort("/dev/ttyS4", 115200) {
+        val openResult = SerialManager.operator.openSerialPort(PreHolder.serialPath, PreHolder.serialPort.toIntOrNull() ?: 115200) {
             if (it.toBean<SerialData>()?.param1?.keyword == "xiao3 fei1 xiao3 fei1") {
                 val message = "监测到串口唤醒指令"
                 ToastUtils.showShort(message)
 //                mAiuiAgentManager.stopRecord()
-//                mAiuiAgentManager.resetWakeup()
-//                startText("我在")
-//                mAiuiAgentManager.startRecord()
-                mAiuiAgentManager.getStatus()
+                mAiuiAgentManager.resetWakeup()
+                startText("我在")
+                mAiuiAgentManager.startRecord()
+
             } else {
                 ToastUtils.showShort(it)
                 LogUtils.iTag("hqq", "onDataReceived = $it")
-                tvInfo.text = it
+                addInfo(it)
             }
         }
-        ToastUtils.showShort("串口打开 ${if (openResult) "成功" else "失败"}")
+        val message = "串口path = ${PreHolder.serialPath};; port = ${PreHolder.serialPort} ;; 打开 ${if (openResult) "成功" else "失败"}"
+        ToastUtils.showShort(message)
+        addInfo(message)
     }
 
     private fun startText(text: String = "今天天气怎么样") {
@@ -108,13 +126,14 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
             override fun onAsrSucceed(content: String?) {
 //                ToastUtils.showShort(content)
                 LogUtils.iTag("hqq", "onAsrSucceed = $content")
-                tvInfo.text = tvInfo.text.toString() + content + "\n"
+                addInfo(content)
+
             }
 
             override fun onNlpSucceed(answer: String?) {
 //            ToastUtils.showShort(answer)
                 LogUtils.iTag("hqq", "onNlpSucceed = $answer")
-                tvInfo.text = tvInfo.text.toString() + answer + "\n"
+                addInfo(answer)
             }
 
             override fun onTtsSucceed(pcmBytes: ByteArray?, expressionList: List<FloatArray?>?) {
