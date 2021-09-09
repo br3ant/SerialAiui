@@ -194,7 +194,7 @@ class AiuiAgentManager(context: Context) : AIUIListener {
                 } else if (result.has("text")) {
                     val text = result.optJSONObject("text")
                     val iatResult = GsonUtil.json2Bean(text.toString(), IatResult::class.java)
-                    val iatContent = iatResult.content
+                    val iatContent = iatResult?.content
                     LogUtils.i("iatContent: = $iatContent")
                     mAiuiAgentCallback?.onAsrSucceed(iatContent)
                 }

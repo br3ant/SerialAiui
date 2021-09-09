@@ -48,19 +48,12 @@ android {
 
 dependencies {
     implementation(fileTree("dir" to "libs", "include" to listOf("*.jar", "*.aar")))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
-    implementation("androidx.core:core-ktx:1.3.2")
-    implementation("androidx.appcompat:appcompat:1.3.0")
-    implementation("com.google.android.material:material:1.3.0")
 
-    implementation("com.blankj:utilcodex:1.29.0")
-
-    implementation("com.github.br3ant:tools:1.0.9")
-    implementation("androidx.constraintlayout:constraintlayout:2.0.4")
+    implementation("com.github.br3ant:tools:1.1.4")
 
     implementation("com.tencent.bugly:crashreport:3.3.9")
 
     implementation("com.afollestad.material-dialogs:core:3.3.0")
     implementation("com.afollestad.material-dialogs:input:3.3.0")
-    implementation("com.hi-dhl:binding:1.1.3")
+
 }

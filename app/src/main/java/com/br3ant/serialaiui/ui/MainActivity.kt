@@ -3,7 +3,7 @@ package com.br3ant.serialaiui.ui
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Environment
-import androidx.lifecycle.rxLifeScope
+import androidx.lifecycle.lifecycleScope
 import com.blankj.utilcode.constant.PermissionConstants
 import com.blankj.utilcode.util.FileUtils
 import com.blankj.utilcode.util.LogUtils
@@ -20,6 +20,7 @@ import com.br3ant.utils.toBean
 import com.drake.brv.utils.addModels
 import com.drake.brv.utils.setup
 import com.hi.dhl.binding.viewbind
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 class MainActivity : BaseActivity(R.layout.activity_main) {
@@ -52,7 +53,7 @@ class MainActivity : BaseActivity(R.layout.activity_main) {
     }
 
     private fun addInfo(info: String?) {
-        rxLifeScope.launch {
+        lifecycleScope.launch {
             binding.rvInfo.addModels(listOf(info))
         }
     }

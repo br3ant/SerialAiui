@@ -1,1 +1,1 @@
-val kotlinVersion = "1.5.0"
+val kotlinVersion = "1.5.30"

@@ -1,5 +1,7 @@
 package com.br3ant.serialaiui.utils
 
+import com.br3ant.utils.PreferenceUtil
+
 /**
  * <pre>
  *     copyright: mukun
